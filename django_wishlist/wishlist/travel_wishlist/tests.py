@@ -77,7 +77,7 @@ class TestVisitPlace(TestCase):
         new_york = Place.objects.get(pk=2)
         self.assertTrue(new_york.visited)
 
-    def test_non_existant_place(self):
+    def test_non_existant_place(self): # Test that 404 is returned if a non existant place is called
         visit_nonexistant_place_url = reverse('place_was_visited', args=(123456, ))
         response = self.client.post(visit_nonexistant_place_url, follow=True)
         self.assertEqual(404, response.status_code)

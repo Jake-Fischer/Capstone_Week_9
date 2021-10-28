@@ -1,5 +1,6 @@
 from django.db import models
 
+# Contains models for place objects
 class Place(models.Model):
     name = models.CharField(max_length=200)
     visited = models.BooleanField(default=False)

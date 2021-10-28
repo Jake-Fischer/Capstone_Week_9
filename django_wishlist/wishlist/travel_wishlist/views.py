@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import Place
 from .forms import NewPlaceForm
 
-# Create your views here.
+# Views
 def place_list(request):
 
     if request.method == 'POST':
@@ -17,16 +17,16 @@ def place_list(request):
     new_place_form = NewPlaceForm() # Used to create HTML
     return render(request, 'travel_wishlist/wishlist.html', {'places': places, 'new_place_form': new_place_form})
 
-def places_visited(request):
+def places_visited(request): # Render list of places visited
     visited = Place.objects.filter(visited=True)
     return render(request, 'travel_wishlist/visited.html', { 'visited': visited})
 
-def about(request):
+def about(request): # Information about the program
     author = 'Jake'
     about = 'A website to create a list of places to visit'
     return render(request, 'travel_wishlist/about.html', {'author': author, 'about': about})
 
-def place_was_visited(request, place_pk):
+def place_was_visited(request, place_pk): # Change visited to true
     if request.method == 'POST':
         # place = Place.objects.get(pk=place_pk)
         place = get_object_or_404(Place, pk=place_pk)
