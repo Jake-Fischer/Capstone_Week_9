@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Place
-from .forms import NewPlaceForm
+from .forms import NewPlaceForm, TripReviewForm
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
+from django.contrib import messages
 
 
 # Views
@@ -60,7 +61,25 @@ def place_was_visited(request, place_pk): # Change visited to true
 @login_required
 def place_details(request, place_pk):
     place = get_object_or_404(Place, pk=place_pk)
-    return render(request, 'travel_wishlist/place_details.html', {'place':place})
+    # Does this place belong to the current user?
+    if place.user != request.user:
+        return HttpResponseForbidden
+    # iF POST request, validate form data and update.
+    if request.method == 'POST':
+        form = TripReviewForm(request.POST, request.FILES, instance=place)
+        if form.is_valid():
+            form.save()
+            messages.info(request, 'Trip information updated.')
+        else:
+            messages.error(request, form.errors) # Temporary, refine later
+        return redirect('place_details', place_pk=place_pk)
+    else:
+        # if place is visited, show form, if place is not visited, no form.
+        if place.visited:
+            review_form = TripReviewForm(instance=place)
+            return render(request, 'travel_wishlist/place_details.html', {'place': place, 'review_form': review_form })
+        else:
+            return render(request, 'travel_wishlist/place_details.html', {'place':place})
 
 
 @login_required
