@@ -20,7 +20,10 @@ from travel_wishlist import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('travel_wishlist.urls'))
-    # path('', views.places_visited, name='places_visited'),
-    # path('visited', views.places_visited, name='places_visited'),
-    # path('place/<int:place_pk/was_visited/', views.place_was_visited, name='place_was_visited')
 ]
+
+from django.conf import settings
+from django.conf.urls.static import static
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
