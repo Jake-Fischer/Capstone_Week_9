@@ -50,7 +50,7 @@ def place_was_visited(request, place_pk): # Change visited to true
     if request.method == 'POST':
         place = get_object_or_404(Place, pk=place_pk)
         if place.user == request.user:
-            place.visted = True
+            place.visited = True
             place.save()
         else:
             return HttpResponseForbidden()
