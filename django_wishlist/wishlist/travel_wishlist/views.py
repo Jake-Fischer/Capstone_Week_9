@@ -63,7 +63,7 @@ def place_details(request, place_pk):
     place = get_object_or_404(Place, pk=place_pk)
     # Does this place belong to the current user?
     if place.user != request.user:
-        return HttpResponseForbidden
+        return HttpResponseForbidden()
     # iF POST request, validate form data and update.
     if request.method == 'POST':
         form = TripReviewForm(request.POST, request.FILES, instance=place)
@@ -89,4 +89,4 @@ def delete_place(request, place_pk):
         place.delete()
         return redirect('place_list')
     else:
-        return HttpResponseForbidden
+        return HttpResponseForbidden()
