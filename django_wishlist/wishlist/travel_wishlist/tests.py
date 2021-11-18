@@ -152,7 +152,7 @@ class TestMarkPlaceAsVisited(TestCase):
 
         response = self.client.post(reverse('place_was_visited', args=(2,)), follow=True)
         # Assert redirected to place list
-        self.assertTemplateUsed(response, 'travel_wishlist/wishlist.html')
+        self.assertTemplateUsed(response, 'travel_wishlist/visited.html')
 
         # Check database for correct data
         place = Place.objects.get(pk=2)
